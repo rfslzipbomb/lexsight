@@ -1,0 +1,146 @@
+/* --- Paleta y Base de Diseño --- */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f8f9;
+  color: #0b2329;
+  overflow-x: hidden;
+}
+
+/* Navbar (Consistencia Corporativa) */
+.custom-navbar {
+  background-color: #1a434e !important;
+  box-shadow: 0 4px 12px rgba(11, 35, 41, 0.15);
+  padding: 15px 0;
+}
+.navbar-brand-poppins {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.brand-lex { color: #ffffff; }
+.brand-sight { color: #539ca8; }
+
+.custom-nav-link {
+  color: #93c2cb !important;
+  font-weight: 500;
+  margin: 0 5px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.custom-nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: #ffffff;
+  transition: width 0.3s ease;
+}
+.custom-nav-link:hover::after, .custom-nav-link.active::after {
+  width: 100%;
+}
+.custom-nav-link:hover, .custom-nav-link.active {
+  color: #ffffff !important;
+}
+
+/* --- Estructura de la Consola de Chat --- */
+.chat-wrapper {
+  height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.chat-card {
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1px solid rgba(83, 156, 168, 0.15);
+  box-shadow: 0 12px 40px rgba(26, 67, 78, 0.06);
+  width: 100%;
+  max-width: 1000px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.header-api {
+  background-color: #1a434e;
+}
+
+.bot-avatar-circle {
+  width: 44px;
+  height: 44px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a434e;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#chat-box {
+  flex-grow: 1;
+  overflow-y: auto;
+  background-color: #ffffff;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar Custom */
+#chat-box::-webkit-scrollbar {
+  width: 6px;
+}
+#chat-box::-webkit-scrollbar-track {
+  background: transparent;
+}
+#chat-box::-webkit-scrollbar-thumb {
+  background-color: rgba(83, 156, 168, 0.25);
+  border-radius: 10px;
+}
+
+/* Elementos de Formulario */
+.input-query {
+  border-radius: 14px; 
+  border: 1px solid rgba(83, 156, 168, 0.25); 
+  font-size: 0.95rem; 
+  background-color: #ffffff;
+}
+
+.btn-submit-query {
+  background-color: #539ca8; 
+  border-radius: 14px; 
+  transition: all 0.2s ease;
+}
+.btn-submit-query:hover {
+  background-color: #1a434e;
+}
+
+.msg-welcome {
+  max-width: 80%; 
+  background-color: #f4f8f9; 
+  border-left: 4px solid #539ca8; 
+  color: #0b2329; 
+  border-radius: 16px 16px 16px 0px; 
+  font-size: 0.95rem;
+}
+
+.hover-white:hover {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Animación de Espera API (Typing) */
+.typing-dots::after {
+  content: '...';
+  animation: typing 1.4s infinite;
+}
+@keyframes typing {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}

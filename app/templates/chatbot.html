@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chatbot Inteligente - LexSight</title>
+    
+    <!-- Bootstrap 5.3.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts & Iconos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- ARCHIVO MODULAR DE ESTILOS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chatbot.css') }}">
+  </head>
+  <body>
+
+    <!-- Navbar Corporativa -->
+    <nav class="navbar navbar-expand-lg custom-navbar">
+      <div class="container-fluid px-4 px-lg-5">
+        <a class="navbar-brand navbar-brand-poppins fs-3" href="home.html">
+          <span class="brand-lex">Lex</span><span class="brand-sight">Sight</span>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto text-center">
+            <li class="nav-item"><a class="nav-link custom-nav-link" href="{{ url_for('home') }}#inicio">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link custom-nav-link active" href="{{ url_for('chatbot') }}">Chatbot</a></li>
+            <li class="nav-item"><a class="nav-link custom-nav-link" href="sobre-nosotros.html">Sobre Nosotros</a></li>
+            <li class="nav-item"><a class="nav-link custom-nav-link" href="{{ url_for('home') }}#sales-pitch">Sales Pitch</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Contenedor Principal de la App -->
+    <main class="chat-wrapper">
+      <div class="chat-card">
+        
+        <!-- Encabezado de Consola -->
+        <div class="p-3 text-white d-flex align-items-center justify-content-between header-api">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bot-avatar-circle">
+              <i class="fa-solid fa-robot"></i>
+            </div>
+            <div>
+              <h1 class="h5 mb-0 fw-semibold" style="font-size: 1.1rem;">Asistente de Consulta Legal</h1>
+              <small class="text-white-50 d-flex align-items-center gap-1" style="font-size: 0.8rem;">
+                <i class="fa-solid fa-circle text-success" style="font-size: 0.55rem;"></i> Cifrado dinámico activo
+              </small>
+            </div>
+          </div>
+          <button class="btn text-white-50 hover-white border-0 fs-5" id="clear-chat" title="Reiniciar chat">
+            <i class="fa-solid fa-arrow-rotate-left"></i>
+          </button>
+        </div>
+
+        <!-- Caja de Mensajes -->
+        <div id="chat-box">
+          <div class="message bot p-3 rounded align-self-start shadow-sm msg-welcome">
+            ¡Hola! Bienvenido a la consola de análisis de <strong>LexSight</strong>. Introduce cualquier consulta, fragmento de contrato o duda normativa y el pipeline de backend la procesará inmediatamente. ¿Con qué empezamos hoy?
+          </div>
+        </div>
+
+        <!-- Barra de Entrada Inferior -->
+          <div class="p-3 bg-light border-top border-light-subtle">
+            <div id="file-preview-container" class="d-none mb-2 p-2 rounded d-flex align-items-center justify-content-between"
+              style="background-color: rgba(83, 156, 168, 0.1); border: 1px dashed #539ca8;">
+              <span id="file-preview-name" class="fw-medium text-truncate"
+                style="font-size: 0.85rem; color: #1a434e; max-width: 80%;"></span>
+              <button type="button" id="btn-remove-file" class="btn btn-sm text-danger p-0 border-0 bg-transparent"><i
+                  class="fa-solid fa-xmark"></i></button>
+            </div>
+          
+            <form id="chat-form" class="input-group gap-2">
+              <input type="file" id="file-input" accept=".pdf,.docx" class="d-none">
+          
+              <button type="button" id="btn-attach" class="btn btn-outline-secondary"
+                style="border-radius: 14px; border: 1px solid rgba(83, 156, 168, 0.25); color: #539ca8;"
+                title="Adjuntar PDF o DOCX">
+                <i class="fa-solid fa-paperclip"></i>
+              </button>
+          
+              <input type="text" id="user-input" class="form-control input-query"
+                placeholder="Escribe tu consulta o añade un archivo..." autocomplete="off">
+          
+              <button class="btn text-white fw-medium btn-submit-query" type="submit" id="btn-enviar">
+                Consultar <i class="fa-solid fa-paper-plane ms-2" style="font-size: 0.85rem;"></i>
+              </button>
+            </form>
+          </div>
+
+      </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- ARCHIVO MODULAR DE LÓGICA DE CONTROL -->
+    <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+  </body>
+</html>

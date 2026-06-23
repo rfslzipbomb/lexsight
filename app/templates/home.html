@@ -1,0 +1,857 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Landing Page - LexSight</title>
+    <!-- Bootstrap 5.3.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+      /* --- Paleta de Colores Corporativa (LexSight) ---
+         Azul Oscuro (Lex): #1a434e
+         Azul Claro/Teal (Sight): #539ca8
+         Fondo frío/Neutro: #f4f8f9
+         Acento Oscuro / Negro Premium: #0b1416
+         Hover de acento: #93c2cb
+      */
+
+      body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f4f8f9;
+        color: #0b2329;
+        overflow-x: hidden;
+      }
+
+      /* Navbar Customizada */
+      .custom-navbar {
+        background-color: #1a434e !important;
+        box-shadow: 0 4px 12px rgba(11, 35, 41, 0.15);
+        padding: 15px 0;
+      }
+
+      .navbar-brand-poppins {
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        transition: transform 0.2s ease;
+      }
+
+      .navbar-brand-poppins:hover {
+        transform: scale(1.02);
+      }
+      
+      .brand-lex {
+        color: #ffffff;
+      }
+
+      .brand-sight {
+        color: #539ca8;
+        transition: color 0.3s ease;
+      }
+      
+      .navbar-brand-poppins:hover .brand-sight {
+        color: #93c2cb;
+      }
+
+      .custom-nav-link {
+        color: #93c2cb !important;
+        font-weight: 500;
+        margin: 0 5px;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .custom-nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #ffffff;
+        transition: width 0.3s ease;
+      }
+
+      .custom-nav-link:hover::after,
+      .custom-nav-link.active::after {
+        width: 100%;
+      }
+
+      .custom-nav-link:hover,
+      .custom-nav-link.active {
+        color: #ffffff !important;
+      }
+
+      .custom-toggler {
+        border-color: #539ca8 !important;
+      }
+      .custom-toggler .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23539ca8' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+      }
+
+      /* Hero Banner Principal */
+      .hero-banner {
+        background: #ffffff;
+        border-radius: 24px;
+        box-shadow: 0 10px 30px rgba(26, 67, 78, 0.08);
+        border: 1px solid rgba(83, 156, 168, 0.12);
+        overflow: hidden;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        transition: transform 0.3s ease;
+      }
+
+      .hero-text-side {
+        padding: 60px 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .hero-badge {
+        background-color: rgba(83, 156, 168, 0.1);
+        color: #1a434e;
+        font-weight: 600;
+        font-size: 0.85rem;
+        padding: 6px 16px;
+        border-radius: 50px;
+        display: inline-block;
+        margin-bottom: 25px;
+        align-self: flex-start;
+        border: 1px solid rgba(83, 156, 168, 0.2);
+      }
+
+      .hero-title {
+        color: #1a434e;
+        font-weight: 700;
+        font-size: 3.2rem;
+        line-height: 1.25;
+        margin-bottom: 24px;
+      }
+
+      .hero-title span {
+        color: #539ca8;
+      }
+
+      .hero-paragraph {
+        color: #4a5d61;
+        font-size: 1.15rem;
+        line-height: 1.7;
+        margin-bottom: 35px;
+        max-width: 90%;
+      }
+
+      .btn-cta {
+        background-color: #539ca8;
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 1.1rem;
+        padding: 16px 36px;
+        border-radius: 12px;
+        border: none;
+        transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        box-shadow: 0 4px 15px rgba(83, 156, 168, 0.25);
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        width: fit-content;
+        text-decoration: none;
+      }
+
+      .btn-cta:hover {
+        background-color: #1a434e;
+        color: #ffffff;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(26, 67, 78, 0.3);
+      }
+
+      .btn-cta i {
+        transition: transform 0.3s ease;
+      }
+
+      .btn-cta:hover i {
+        transform: translateX(4px);
+      }
+
+      .hero-image-side {
+        background-color: rgba(83, 156, 168, 0.05);
+        position: relative;
+        min-height: 500px;
+        overflow: hidden;
+      }
+
+      .hero-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .hero-image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(26, 67, 78, 0.15) 0%, rgba(83, 156, 168, 0.25) 100%);
+        mix-blend-mode: multiply;
+        pointer-events: none;
+      }
+
+      /* Contenedor del Centro Ético Animado */
+      .ethical-hub {
+        background: #0b1416; /* Fondo Ultra Oscuro de gama Premium */
+        border-radius: 28px;
+        padding: 60px;
+        margin-bottom: 60px;
+        color: #ffffff;
+        border: 1px solid rgba(83, 156, 168, 0.2);
+        box-shadow: 0 20px 40px rgba(11, 20, 22, 0.3);
+      }
+
+      .hub-subtitle {
+        color: #539ca8;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+      }
+
+      .hub-title {
+        font-weight: 700;
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+        color: #ffffff;
+      }
+
+      .hub-title2 {
+        font-weight: 700;
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+        color: #1a434e;
+      }
+      /* Controladores / Pestanas Interactivas */
+      .hub-control-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 16px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .hub-control-card:hover {
+        background: rgba(255, 255, 255, 0.06);
+        transform: translateX(6px);
+      }
+
+      .hub-control-card.active {
+        background: rgba(83, 156, 168, 0.15);
+        border-color: #539ca8;
+        box-shadow: 0 4px 20px rgba(83, 156, 168, 0.15);
+      }
+
+      .hub-control-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: rgba(83, 156, 168, 0.2);
+        color: #539ca8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        flex-shrink: 0;
+        transition: all 0.3s ease;
+      }
+
+      .hub-control-card.active .hub-control-icon {
+        background: #539ca8;
+        color: #0b1416;
+      }
+
+      .hub-control-title {
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin: 0 0 4px 0;
+        color: #ffffff;
+      }
+
+      .hub-control-desc {
+        font-size: 0.85rem;
+        color: #a4b3b6;
+        margin: 0;
+      }
+
+      /* Monitor Interactivo de Simulación */
+      .simulation-display {
+        background: #070d0e;
+        border: 1px solid rgba(83, 156, 168, 0.15);
+        border-radius: 20px;
+        height: 100%;
+        min-height: 380px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 30px;
+      }
+
+      /* Animación 1: Sinergia de IA */
+      .anim-circle-container {
+        position: relative;
+        width: 200px;
+        height: 200px;
+      }
+
+      .anim-circle {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 2px dashed rgba(83, 156, 168, 0.4);
+        border-radius: 50%;
+        animation: spin 20s linear infinite;
+      }
+
+      .anim-circle-inner {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 160px;
+        height: 160px;
+        border: 2px solid rgba(147, 194, 203, 0.2);
+        border-radius: 50%;
+        animation: spin-reverse 10s linear infinite;
+      }
+
+      .anim-center-node {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 3rem;
+        color: #539ca8;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      .node-satellite {
+        position: absolute;
+        width: 32px;
+        height: 32px;
+        background: #1a434e;
+        border: 2px solid #539ca8;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.85rem;
+        color: #ffffff;
+      }
+
+      .sat-1 { top: -16px; left: calc(50% - 16px); }
+      .sat-2 { bottom: -16px; left: calc(50% - 16px); }
+      .sat-3 { left: -16px; top: calc(50% - 16px); }
+      .sat-4 { right: -16px; top: calc(50% - 16px); }
+
+      /* Animación 2: Verificación de IA */
+      .scanner-container {
+        width: 100%;
+        max-width: 340px;
+        position: relative;
+      }
+
+      .scan-line {
+        position: absolute;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, transparent, #539ca8, transparent);
+        top: 0;
+        animation: scan-vertical 3s linear infinite;
+        box-shadow: 0 0 12px #539ca8;
+        z-index: 10;
+      }
+
+      .doc-simulated {
+        background: rgba(26, 67, 78, 0.15);
+        border: 1px solid rgba(83, 156, 168, 0.3);
+        border-radius: 12px;
+        padding: 20px;
+        font-family: monospace;
+        font-size: 0.8rem;
+        color: #a4b3b6;
+      }
+
+      .doc-line {
+        height: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        margin-bottom: 12px;
+        border-radius: 4px;
+      }
+
+      .doc-line.highlight {
+        background: rgba(83, 156, 168, 0.4);
+      }
+
+      /* Animación 3: Privacidad Pro */
+      .encryption-shield {
+        text-align: center;
+      }
+
+      .shield-icon-animated {
+        font-size: 4.5rem;
+        color: #539ca8;
+        margin-bottom: 20px;
+        animation: pulse-shield 2.5s ease-in-out infinite;
+      }
+
+      .secure-badge {
+        background: rgba(40, 167, 69, 0.1);
+        border: 1px solid rgba(40, 167, 69, 0.3);
+        color: #28a745;
+        padding: 6px 16px;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      /* Keyframes para todas las animaciones */
+      @keyframes spin { 100% { transform: rotate(360deg); } }
+      @keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
+      @keyframes pulse {
+        0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+        50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+      }
+      @keyframes pulse-shield {
+        0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(83, 156, 168, 0)); }
+        50% { transform: scale(1.08); filter: drop-shadow(0 0 15px rgba(83, 156, 168, 0.4)); }
+      }
+      @keyframes scan-vertical {
+        0% { top: 0%; }
+        50% { top: 100%; }
+        100% { top: 0%; }
+      }
+
+      /* Footer Estilo Minimalista (Réplica de la Imagen "Captura desde 2026-06-11 15-29-14.png") */
+      .replica-footer {
+        background-color: #050a0b; /* Fondo Negro Profundo */
+        color: #8c9c9e; /* Gris Claro Opaco */
+        padding: 80px 0 60px 0;
+        font-size: 0.9rem;
+        border-top: 1px solid rgba(83, 156, 168, 0.08);
+      }
+
+      .footer-top-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 40px;
+      }
+
+      /* Estilo de Marca Izquierda */
+      .footer-brand-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .footer-brand-logo {
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 1.4rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: opacity 0.2s ease;
+      }
+
+      .footer-brand-logo:hover {
+        opacity: 0.9;
+        color: #ffffff;
+      }
+
+      .footer-brand-logo img {
+        height: 24px;
+        width: auto;
+      }
+
+      /* Selector de Idiomas Minimalista (Simula la Captura) */
+      .language-selector {
+        background: transparent;
+        border: none;
+        color: #539ca8;
+        font-size: 1rem;
+        padding: 0;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: color 0.2s ease;
+      }
+
+      .language-selector:hover {
+        color: #93c2cb;
+      }
+
+      .copyright-text-replica {
+        color: #4a5d61;
+        font-size: 0.8rem;
+        margin-top: 15px;
+      }
+
+      /* Menús de Navegación Derechos */
+      .footer-menus-container {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+      }
+
+      .footer-dropdown-menu {
+        position: relative;
+        display: inline-block;
+      }
+
+      .footer-menu-trigger {
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        font-weight: 500;
+        font-size: 0.95rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0;
+        transition: color 0.2s ease;
+      }
+
+      .footer-menu-trigger:hover {
+        color: #539ca8;
+      }
+
+      /* Redes Sociales Réplica (En línea en la sección inferior derecha) */
+      .footer-social-bar {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        justify-content: flex-end;
+        margin-top: 25px;
+      }
+
+      .footer-social-link-replica {
+        color: #4a5d61;
+        font-size: 1.1rem;
+        transition: color 0.2s ease, transform 0.2s ease;
+        text-decoration: none;
+      }
+
+      .footer-social-link-replica:hover {
+        color: #ffffff;
+        transform: translateY(-2px);
+      }
+
+      /* Adaptabilidad */
+      @media (min-width: 1400px) {
+        .hero-text-side { padding: 80px 100px; }
+        .hero-title { font-size: 3.6rem; }
+        .ethical-hub { padding: 80px; }
+      }
+
+      @media (max-width: 991.98px) {
+        .hero-text-side { padding: 40px 30px; }
+        .hero-title { font-size: 2.3rem; }
+        .hero-image-side { min-height: 350px; }
+        .ethical-hub { padding: 40px 30px; }
+        .simulation-display { min-height: 320px; }
+        .footer-top-row { flex-direction: column; gap: 30px; }
+        .footer-menus-container { gap: 24px; }
+        .footer-social-bar { justify-content: flex-start; margin-top: 15px; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- Navbar Reestructurada con pestaña "Inicio" -->
+    <nav class="navbar navbar-expand-lg custom-navbar">
+      <div class="container-fluid px-4 px-lg-5">
+        <a class="navbar-brand navbar-brand-poppins fs-3" href="#inicio">
+          <span class="brand-lex">Lex</span><span class="brand-sight">Sight</span>
+        </a>
+        
+        <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto text-center">
+            <li class="nav-item">
+              <a class="nav-link custom-nav-link active" href="#inicio">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link custom-nav-link" href="{{ url_for('chatbot') }}">Chatbot</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link custom-nav-link" href="sobre-nosotros.html">Sobre Nosotros</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link custom-nav-link" href="#sales-pitch">Sales Pitch</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Sección de Inicio con Banner Corporativo Principal Fluidificado -->
+    <main class="container-fluid px-4 px-lg-5" id="inicio">
+      <div class="hero-banner">
+        <div class="row g-0 align-items-stretch">
+          
+          <!-- Lado Izquierdo: Contenido Escrito y CTA -->
+          <div class="col-lg-6 hero-text-side">
+            <span class="hero-badge">
+              <i class="fa-solid fa-scale-balanced me-1"></i> Inteligencia Legal al Instante
+            </span>
+            <h1 class="hero-title">
+              Visualiza el éxito con claridad <span>analítica</span>
+            </h1>
+            <p class="hero-paragraph">
+              Potencia tus análisis legales y toma decisiones estratégicas con la tecnología de LexSight. Nuestra plataforma simplifica la interpretación de datos normativos complejos, dándote una perspectiva clara, precisa y en tiempo récord.
+            </p>
+            <a href="{{ url_for('chatbot') }}" class="btn-cta">
+              Prueba el Chatbot Gratuito <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+
+          <!-- Lado Derecho: Espacio reservado para la Imagen de la Landing Page -->
+          <div class="col-lg-6 hero-image-side">
+            <img 
+              src="static/img/Picsart_26-06-11_14-32-03-704.png" 
+              alt="Análisis analítico y asesoría legal moderna con LexSight" 
+              class="hero-img"
+            >
+            <div class="hero-image-overlay"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Segundo Banner: Centro Ético Interactivo -->
+      <section class="ethical-hub">
+        <div class="text-center text-lg-start mb-5">
+          <span class="hub-subtitle">Garantías LexSight</span>
+          <h2 class="hub-title">Tecnología de Resguardo y Ética Profesional</h2>
+        </div>
+
+        <div class="row g-5 align-items-stretch">
+          <!-- Columna Izquierda: Controladores (Tabs) -->
+          <div class="col-lg-5 d-flex flex-column justify-content-center">
+            
+            <!-- Controlador 1 -->
+            <div class="hub-control-card active" onclick="switchTab('synergy')">
+              <div class="hub-control-icon">
+                <i class="fa-solid fa-user-gear"></i>
+              </div>
+              <div>
+                <h3 class="hub-control-title">Sinergia Humana-IA</h3>
+                <p class="hub-control-desc">Diseñado para robustecer el criterio del profesional de derecho, no para sustituirlo.</p>
+              </div>
+            </div>
+
+            <!-- Controlador 2 -->
+            <div class="hub-control-card" onclick="switchTab('scanning')">
+              <div class="hub-control-icon">
+                <i class="fa-solid fa-magnifying-glass-chart"></i>
+              </div>
+              <div>
+                <h3 class="hub-control-title">Verificación de Fiabilidad</h3>
+                <p class="hub-control-desc">Validación de referencias normativas con motores de chequeo cruzado continuo.</p>
+              </div>
+            </div>
+
+            <!-- Controlador 3 -->
+            <div class="hub-control-card" onclick="switchTab('privacy')">
+              <div class="hub-control-icon">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <div>
+                <h3 class="hub-control-title">Confidencialidad Absoluta</h3>
+                <p class="hub-control-desc">Cifrado de grado empresarial para proteger consultas legales de su corporación.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Columna Derecha: Pantalla de Simulación Animada -->
+          <div class="col-lg-7">
+            <div class="simulation-display" id="simDisplay">
+              
+              <!-- Simulación 1 (Synergy) -->
+              <div id="sim-synergy" class="sim-view">
+                <div class="anim-circle-container">
+                  <div class="anim-circle"></div>
+                  <div class="anim-circle-inner"></div>
+                  <div class="anim-center-node">
+                    <i class="fa-solid fa-brain text-secondary-sight"></i>
+                  </div>
+                  <div class="node-satellite sat-1"><i class="fa-solid fa-user-tie"></i></div>
+                  <div class="node-satellite sat-2"><i class="fa-solid fa-scale-balanced"></i></div>
+                  <div class="node-satellite sat-3"><i class="fa-solid fa-database"></i></div>
+                  <div class="node-satellite sat-4"><i class="fa-solid fa-gavel"></i></div>
+                </div>
+              </div>
+
+              <!-- Simulación 2 (Scanning) - Oculto por defecto -->
+              <div id="sim-scanning" class="sim-view d-none">
+                <div class="scanner-container">
+                  <div class="scan-line"></div>
+                  <div class="doc-simulated">
+                    <div class="text-white mb-2" style="font-size: 0.7rem;"><i class="fa-solid fa-terminal me-2"></i>LEXSIGHT VERIFIER v2.4</div>
+                    <div class="doc-line"></div>
+                    <div class="doc-line highlight"></div>
+                    <div class="doc-line"></div>
+                    <div class="doc-line highlight"></div>
+                    <div class="doc-line"></div>
+                    <div class="text-success" style="font-size: 0.75rem;"><i class="fa-solid fa-circle-check me-1"></i> Referencias de Ley validadas.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Simulación 3 (Privacy) - Oculto por defecto -->
+              <div id="sim-privacy" class="sim-view d-none">
+                <div class="encryption-shield">
+                  <div class="shield-icon-animated">
+                    <i class="fa-solid fa-lock"></i>
+                  </div>
+                  <div>
+                    <span class="secure-badge">
+                      <i class="fa-solid fa-shield-halved"></i> AES-256 SECURE TUNNEL
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+        <section class="mb-5">
+          <div class="text-center">
+            <h2 class="hub-title2">Formulario de Contacto</h2>
+            <p class="hub-control-desc">¿Tienes preguntas o quieres saber más? Contáctanos y nuestro equipo te responderá a la brevedad.</p>
+            <form class="d-flex flex-column align-items-center gap-3 mt-4" style="max-width: 500px; margin: 0 auto;" action="/home" method="POST">
+              <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Tu Nombre" required>
+              <input type="email" id="correo" name="correo" class="form-control" placeholder="Tu Correo Electrónico" required>
+              <textarea class="form-control" id="message" name="message" rows="4" placeholder="Tu Mensaje" required></textarea>
+              <button type="submit" class="btn-cta">
+                Enviar Mensaje <i class="fa-solid fa-paper-plane"></i>
+              </button>
+          </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Réplica de la Imagen de referencia -->
+    <footer class="replica-footer">
+      <div class="container-fluid px-4 px-lg-5">
+        <div class="footer-top-row">
+          
+          <!-- Lado Izquierdo: Marca, Selector de Idioma y Copyright -->
+          <div class="footer-brand-container">
+            <a class="footer-brand-logo navbar-brand-poppins" href="#inicio">
+              <span class="brand-lex text-white">Lex</span><span class="brand-sight text-secondary-sight">Sight</span>
+            </a>
+            
+            <!-- Selector de Idiomas (Inspirado en el globo del footer de la imagen) -->
+            <div>
+              <button class="language-selector" type="button" aria-expanded="false">
+                <i class="fa-solid fa-globe"></i> Español <i class="fa-solid fa-chevron-down ms-1" style="font-size: 0.75rem;"></i>
+              </button>
+            </div>
+            
+            <!-- Línea de Derechos Reservados -->
+            <p class="copyright-text-replica">
+              &copy; 2026 LexSight Technologies Sp. z O.O. Todos los derechos reservados.
+            </p>
+          </div>
+
+          <!-- Lado Derecho: Menús Desplegables / Enlaces y Redes Sociales -->
+          <div>
+            <div class="footer-menus-container">
+              <!-- Compañía -->
+              <div class="footer-dropdown-menu">
+                <button class="footer-menu-trigger">
+                  Compañía <i class="fa-solid fa-chevron-down ms-1" style="font-size: 0.75rem;"></i>
+                </button>
+              </div>
+              
+              <!-- Términos -->
+              <div class="footer-dropdown-menu">
+                <button class="footer-menu-trigger">
+                  Términos <i class="fa-solid fa-chevron-down ms-1" style="font-size: 0.75rem;"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Redes Sociales en línea alineadas a la derecha como en la captura -->
+            <div class="footer-social-bar">
+              <a href="#" class="footer-social-link-replica" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+              <a href="#" class="footer-social-link-replica" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+              <a href="#" class="footer-social-link-replica" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#" class="footer-social-link-replica" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      /**
+       * Cambia interactivamente las vistas de simulación del centro ético.
+       * @param {string} targetView - Identificador de la vista ('synergy', 'scanning', 'privacy')
+       */
+      function switchTab(targetView) {
+        // Obtener todas las tarjetas controladoras
+        const cards = document.querySelectorAll('.hub-control-card');
+        cards.forEach(card => card.classList.remove('active'));
+
+        // Obtener todas las vistas de simulación
+        const views = document.querySelectorAll('.sim-view');
+        views.forEach(view => view.classList.add('d-none'));
+
+        // Activar la tarjeta clickeada
+        event.currentTarget.classList.add('active');
+
+        // Mostrar la simulación correspondiente con animación
+        const activeView = document.getElementById('sim-' + targetView);
+        if (activeView) {
+          activeView.classList.remove('d-none');
+        }
+      }
+    </script>
+  </body>
+</html>
