@@ -22,7 +22,7 @@
     <!-- Navbar Corporativa -->
     <nav class="navbar navbar-expand-lg custom-navbar">
       <div class="container-fluid px-4 px-lg-5">
-        <a class="navbar-brand navbar-brand-poppins fs-3" href="home.html">
+        <a class="navbar-brand navbar-brand-poppins fs-3" href="{{ url_for('home') }}">
           <span class="brand-lex">Lex</span><span class="brand-sight">Sight</span>
         </a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -32,7 +32,7 @@
           <ul class="navbar-nav ms-auto text-center">
             <li class="nav-item"><a class="nav-link custom-nav-link" href="{{ url_for('home') }}#inicio">Inicio</a></li>
             <li class="nav-item"><a class="nav-link custom-nav-link active" href="{{ url_for('chatbot') }}">Chatbot</a></li>
-            <li class="nav-item"><a class="nav-link custom-nav-link" href="sobre-nosotros.html">Sobre Nosotros</a></li>
+            <li class="nav-item"><a class="nav-link custom-nav-link" href="{{ url_for('about') }}">Sobre Nosotros</a></li>
             <li class="nav-item"><a class="nav-link custom-nav-link" href="{{ url_for('home') }}#sales-pitch">Sales Pitch</a></li>
           </ul>
         </div>
@@ -78,6 +78,15 @@
                   class="fa-solid fa-xmark"></i></button>
             </div>
           
+            <div class="d-flex align-items-center mb-2 px-1">
+              <div class="form-check form-switch custom-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="deep-research-toggle">
+                <label class="form-check-label text-muted ms-2" for="deep-research-toggle"
+                  style="font-size: 0.85rem; font-weight: 500;">
+                  <i class="fa-solid fa-microscope text-primary"></i> Activar Deep Research (Análisis de Riesgos y Reporte PDF)
+                </label>
+              </div>
+            </div>
             <form id="chat-form" class="input-group gap-2">
               <input type="file" id="file-input" accept=".pdf,.docx" class="d-none">
           
@@ -104,5 +113,23 @@
     
     <!-- ARCHIVO MODULAR DE LÓGICA DE CONTROL -->
     <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+    <!-- Modal Visor de Documentos PDF -->
+<div class="modal fade" id="modalVisorPDF" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content shadow-lg" style="border-radius: 16px; border: none; overflow: hidden;">
+      <div class="modal-header text-white"
+        style="background-color: #1a434e; border-bottom: none; padding: 1rem 1.5rem;">
+        <h5 class="modal-title fw-semibold" style="font-family: 'Poppins', sans-serif;">
+          <i class="fa-solid fa-file-pdf me-2 text-danger"></i> Reporte LexSight Deep Research
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0" style="height: 80vh; background-color: #f4f8f9;">
+        <!-- El iframe donde se inyectará el PDF -->
+        <iframe id="iframePDF" src="" width="100%" height="100%" style="border: none;"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
   </body>
 </html>

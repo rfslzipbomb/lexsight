@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sobre Nosotros - LexSight</title>
+    <!-- Bootstrap 5.3.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+      /* --- Paleta de Colores Corporativa (LexSight) ---
+         Azul Oscuro (Lex): #1a434e
+         Azul Claro/Teal (Sight): #539ca8
+         Fondo frío/Neutro: #f4f8f9
+         Acento Oscuro / Negro Premium: #0b1416
+         Hover de acento: #93c2cb
+      */
+
+      body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f4f8f9;
+        color: #0b2329;
+        overflow-x: hidden;
+      }
+
+      /* Navbar Customizada (Idéntica al Home) */
+      .custom-navbar {
+        background-color: #1a434e !important;
+        box-shadow: 0 4px 12px rgba(11, 35, 41, 0.15);
+        padding: 15px 0;
+      }
+
+      .navbar-brand-poppins {
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        transition: transform 0.2s ease;
+      }
+
+      .navbar-brand-poppins:hover {
+        transform: scale(1.02);
+      }
+      
+      .brand-lex {
+        color: #ffffff;
+      }
+
+      .brand-sight {
+        color: #539ca8;
+        transition: color 0.3s ease;
+      }
+      
+      .navbar-brand-poppins:hover .brand-sight {
+        color: #93c2cb;
+      }
+
+      .custom-nav-link {
+        color: #93c2cb !important;
+        font-weight: 500;
+        margin: 0 5px;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .custom-nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #ffffff;
+        transition: width 0.3s ease;
+      }
+
+      .custom-nav-link:hover::after,
+      .custom-nav-link.active::after {
+        width: 100%;
+      }
+
+      .custom-nav-link:hover,
+      .custom-nav-link.active {
+        color: #ffffff !important;
+      }
+
+      .custom-toggler {
+        border-color: #539ca8 !important;
+      }
+      .custom-toggler .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23539ca8' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+      }
+
+      /* Intro Banner (Sobre Nosotros) */
+      .about-intro-section {
+        margin-top: 50px;
+        margin-bottom: 50px;
+      }
+
+      .about-badge {
+        background-color: rgba(83, 156, 168, 0.1);
+        color: #1a434e;
+        font-weight: 600;
+        font-size: 0.85rem;
+        padding: 6px 16px;
+        border-radius: 50px;
+        display: inline-block;
+        margin-bottom: 20px;
+        border: 1px solid rgba(83, 156, 168, 0.2);
+      }
+
+      .about-title {
+        color: #1a434e;
+        font-weight: 700;
+        font-size: 2.8rem;
+        line-height: 1.25;
+        margin-bottom: 20px;
+      }
+
+      .about-title span {
+        color: #539ca8;
+      }
+
+      .about-lead {
+        color: #4a5d61;
+        font-size: 1.15rem;
+        line-height: 1.7;
+        margin-bottom: 30px;
+      }
+
+      /* Grid y Tarjetas del Equipo de Desarrollo */
+      .team-section {
+        background-color: #ffffff;
+        border-radius: 28px;
+        border: 1px solid rgba(83, 156, 168, 0.12);
+        box-shadow: 0 10px 30px rgba(26, 67, 78, 0.05);
+        padding: 60px 40px;
+        margin-bottom: 80px;
+      }
+
+      .team-header-title {
+        color: #1a434e;
+        font-weight: 700;
+        font-size: 2.2rem;
+        margin-bottom: 15px;
+      }
+
+      .team-header-subtitle {
+        color: #539ca8;
+        font-weight: 500;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 40px;
+      }
+
+      /* Tarjeta de Desarrollador */
+      .dev-card {
+        background-color: #f4f8f9;
+        border-radius: 20px;
+        border: 1px solid rgba(83, 156, 168, 0.08);
+        padding: 30px;
+        height: 100%;
+        transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        position: relative;
+      }
+
+      .dev-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(26, 67, 78, 0.1);
+        border-color: rgba(83, 156, 168, 0.25);
+      }
+
+      .dev-avatar-container {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        margin-bottom: 20px;
+      }
+
+      .dev-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #539ca8;
+        box-shadow: 0 6px 15px rgba(83, 156, 168, 0.15);
+      }
+
+      .dev-badge-tech {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 32px;
+        height: 32px;
+        background: #1a434e;
+        color: #ffffff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.85rem;
+        border: 2px solid #ffffff;
+      }
+
+      .dev-name {
+        color: #1a434e;
+        font-weight: 700;
+        font-size: 1.25rem;
+        margin-bottom: 4px;
+      }
+
+      .dev-role {
+        color: #539ca8;
+        font-weight: 500;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 15px;
+      }
+
+      .dev-testimonial {
+        font-style: italic;
+        color: #4a5d61;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        position: relative;
+        flex-grow: 1;
+      }
+
+      .dev-testimonial::before {
+        content: '"';
+        font-size: 2rem;
+        color: rgba(83, 156, 168, 0.2);
+        position: absolute;
+        top: -15px;
+        left: -5px;
+      }
+
+      /* Redes de Desarrolladores */
+      .dev-social-links {
+        display: flex;
+        gap: 12px;
+        margin-top: auto;
+      }
+
+      .dev-social-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background-color: rgba(83, 156, 168, 0.08);
+        color: #1a434e;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition: all 0.2s ease;
+      }
+
+      .dev-social-icon:hover {
+        background-color: #539ca8;
+        color: #ffffff;
+        transform: scale(1.05);
+      }
+
+      /* Footer Estilo Minimalista (Réplica de "Captura desde 2026-06-11 15-29-14.png") */
+      .replica-footer {
+        background-color: #050a0b; /* Fondo Negro Profundo */
+        color: #8c9c9e; /* Gris Claro Opaco */
+        padding: 80px 0 60px 0;
+        font-size: 0.9rem;
+        border-top: 1px solid rgba(83, 156, 168, 0.08);
+      }
+
+      .footer-top-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 40px;
+      }
+
+      .footer-brand-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .footer-brand-logo {
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 1.4rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: opacity 0.2s ease;
+      }
+
+      .footer-brand-logo:hover {
+        opacity: 0.9;
+        color: #ffffff;
+      }
+
+      .brand-lex {
+        color: #ffffff;
+      }
+
+      .brand-sight {
+        color: #539ca8;
+      }
+
+      .language-selector {
+        background: transparent;
+        border: none;
+        color: #539ca8;
+        font-size: 1rem;
+        padding: 0;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: color 0.2s ease;
+      }
+
+      .language-selector:hover {
+        color: #93c2cb;
+      }
+
+      .copyright-text-replica {
+        color: #4a5d61;
+        font-size: 0.8rem;
+        margin-top: 15px;
+      }
+
+      .footer-menus-container {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+      }
+
+      .footer-dropdown-menu {
+        position: relative;
+        display: inline-block;
+      }
+
+      .footer-menu-trigger {
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        font-weight: 500;
+        font-size: 0.95rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0;
+        transition: color 0.2s ease;
+      }
+
+      .footer-menu-trigger:hover {
+        color: #539ca8;
+      }
+
+      .footer-social-bar {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        justify-content: flex-end;
+        margin-top: 25px;
+      }
+
+      .footer-social-link-replica {
+        color: #4a5d61;
+        font-size: 1.1rem;
+        transition: color 0.2s ease, transform 0.2s ease;
+        text-decoration: none;
+      }
+
+      .footer-social-link-replica:hover {
+        color: #ffffff;
+        transform: translateY(-2px);
+      }
+
+      /* Adaptabilidad */
+      @media (max-width: 991.98px) {
+        .about-intro-section { margin-top: 30px; margin-bottom: 30px; }
+        .about-title { font-size: 2.2rem; }
+        .team-section { padding: 40px 20px; }
+        .team-header-title { font-size: 1.8rem; }
+        .footer-top-row { flex-direction: column; gap: 30px; }
+        .footer-menus-container { gap: 24px; }
+        .footer-social-bar { justify-content: flex-start; margin-top: 15px; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- Navbar Reestructurada con pestaña "Sobre Nosotros" Activa -->
+    <nav class="navbar navbar-expand-lg custom-navbar">
+      <div class="container-fluid px-4 px-lg-5">
+        <a class="navbar-brand navbar-brand-poppins fs-3" href="{{ url_for('home') }}#inicio">
+          <span class="brand-lex">Lex</span><span class="brand-sight">Sight</span>
+        </a>
+        
+        <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto text-center">
+            <li class="nav-item">
+              <a class="nav-link custom-nav-link" href="{{ url_for('home') }}#inicio">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link custom-nav-link" href="{{ url_for('chatbot') }}">Chatbot</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link custom-nav-link active" href="{{ url_for('about') }}">Sobre Nosotros</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link custom-nav-link" href="{{ url_for('home') }}#sales-pitch">Sales Pitch</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Contenido Introductorio de Sobre Nosotros -->
+    <main class="container-fluid px-4 px-lg-5 about-intro-section">
+      <div class="row align-items-center g-5">
+        
+        <div class="col-lg-6">
+          <span class="about-badge">
+            <i class="fa-solid fa-users me-1"></i> El Equipo de Innovación
+          </span>
+          <h1 class="about-title">
+            Conoce las mentes que definen el futuro de la <span>analítica legal</span>
+          </h1>
+          <p class="about-lead">
+            Somos un equipo multidisciplinario de ingenieros de software, diseñadores de experiencias y expertos normativos dedicados a transformar la forma en que los profesionales del derecho interactúan con la información legislativa.
+          </p>
+          <p class="text-muted">
+            Nacimos con la premisa de unir la ingeniería informática con el análisis riguroso de normativas, creando un puente transparente, ético y sumamente veloz mediante modelos avanzados de procesamiento de lenguaje natural.
+          </p>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="p-3" style="background-color: rgba(83, 156, 168, 0.05); border-radius: 24px; border: 1px dashed rgba(83, 156, 168, 0.2);">
+            <img 
+              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80" 
+              alt="Colaboración y desarrollo de software en LexSight" 
+              class="img-fluid rounded-4 shadow-sm"
+              onerror="this.src='https://placehold.co/600x400/1a434e/ffffff?text=Equipo+LexSight'"
+            >
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Sección de Testimoniales y Perfiles del Equipo de Desarrollo -->
+    <section class="container-fluid px-4 px-lg-5">
+      <div class="team-section text-center">
+        
+        <h2 class="team-header-title">Nuestro Equipo de Desarrollo</h2>
+        <p class="team-header-subtitle">Construyendo tecnología robusta, segura y escalable</p>
+
+        <div class="row g-4 text-start">
+          
+          <!-- Desarrollador 1 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="dev-card">
+              <div class="dev-avatar-container">
+                <img 
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" 
+                  alt="Desarrolladora Líder de IA" 
+                  class="dev-avatar"
+                  onerror="this.src='https://placehold.co/120x120/1a434e/ffffff?text=Dev+1'"
+                >
+                <div class="dev-badge-tech"><i class="fa-solid fa-code"></i></div>
+              </div>
+              <h3 class="dev-name">Samira Osorio</h3>
+              <p class="dev-role">Lead AI Engineer</p>
+              <p class="dev-testimonial">
+                "Diseñar el motor de procesamiento para LexSight fue un gran reto normativo. Logramos un modelo optimizado que entiende contextos jurídicos sin perder precisión técnica ni velocidad de cómputo."
+              </p>
+              <div class="dev-social-links">
+                <a href="#" class="dev-social-icon" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="dev-social-icon" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Desarrollador 2 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="dev-card">
+              <div class="dev-avatar-container">
+                <img 
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80" 
+                  alt="Arquitecto Fullstack" 
+                  class="dev-avatar"
+                  onerror="this.src='https://placehold.co/120x120/1a434e/ffffff?text=Dev+2'"
+                >
+                <div class="dev-badge-tech"><i class="fa-solid fa-cubes"></i></div>
+              </div>
+              <h3 class="dev-name">Rafael Salazar</h3>
+              <p class="dev-role">Fullstack Architect</p>
+              <p class="dev-testimonial">
+                "Nuestra prioridad fue la robustez. Estructuré el backend con túneles seguros y cifrado de extremo a extremo para asegurar que la privacidad de los datos empresariales sea inviolable."
+              </p>
+              <div class="dev-social-links">
+                <a href="#" class="dev-social-icon" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="dev-social-icon" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Footer Réplica Minimalista de "Captura desde 2026-06-11 15-29-14.png" -->
+    <footer class="replica-footer">
+      <div class="container-fluid px-4 px-lg-5">
+        <div class="footer-top-row">
+          
+          <!-- Lado Izquierdo: Marca, Selector de Idioma y Copyright -->
+          <div class="footer-brand-container">
+            <a class="footer-brand-logo navbar-brand-poppins" href="{{ url_for('home') }}#inicio">
+              <span class="brand-lex">Lex</span><span class="brand-sight text-secondary-sight">Sight</span>
+            </a>
+            
+            <!-- Selector de Idiomas -->
+            <div>
+              <button class="language-selector" type="button" aria-expanded="false">
+                <i class="fa-solid fa-globe"></i> Español <i class="fa-solid fa-chevron-down ms-1" style="font-size: 0.75rem;"></i>
+              </button>
+            </div>
+            
+            <!-- Línea de Derechos Reservados -->
+            <p class="copyright-text-replica">
+              &copy; 2026 LexSight Technologies Sp. z O.O. Todos los derechos reservados.
+            </p>
+          </div>
+
+          <!-- Lado Derecho: Menús Desplegables / Enlaces y Redes Sociales -->
+          <div>
+            <div class="footer-menus-container">
+              <!-- Compañía -->
+              <div class="footer-dropdown-menu">
+                <button class="footer-menu-trigger">
+                  Compañía <i class="fa-solid fa-chevron-down ms-1" style="font-size: 0.75rem;"></i>
+                </button>
+              </div>
+
+              <!-- Aprender -->
+              <div class="footer-dropdown-menu">
+                <button class="footer-menu-trigger">
+                  Aprender <i class="fa-solid fa-chevron-down ms-1" style="font-size: 0.75rem;"></i>
+                </button>
+              </div>
+
+              <!-- Términos -->
+              <div class="footer-dropdown-menu">
+                <button class="footer-menu-trigger">
+                  Términos <i class="fa-solid fa-chevron-down ms-1" style="font-size: 0.75rem;"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Redes Sociales en línea alineadas a la derecha como en la captura -->
+            <div class="footer-social-bar">
+              <a href="#" class="footer-social-link-replica" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+              <a href="#" class="footer-social-link-replica" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+              <a href="#" class="footer-social-link-replica" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#" class="footer-social-link-replica" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

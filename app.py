@@ -1,9 +1,15 @@
 import os
 import sqlite3
-from flask import Flask, render_template, request, jsonify
+from pdf_generator import crear_informe_pdf
+from backend_consultas import procesar_pipeline_legal, procesar_pipeline_deep_research, extraer_texto_pdf, extraer_texto_docx, limpiar_texto_respuesta
+from flask import Flask, render_template, request, jsonify, url_for
 from flask_cors import CORS
-# Importamos las herramientas de lectura que ya programamos en tu backend_consultas
-from backend_consultas import procesar_pipeline_legal, extraer_texto_pdf, extraer_texto_docx
+import uuid
+from fpdf import FPDF # Asegúrate de hacer: pip install fpdf2
+
+REPORTS_DIR = os.path.join(os.path.dirname(__file__), 'app/static/reports')
+if not os.path.exists(REPORTS_DIR):
+    os.makedirs(REPORTS_DIR)
 
 app = Flask(
     __name__,
@@ -22,6 +28,10 @@ def home():
 def chatbot():
     return render_template('chatbot.html')
 
+@app.route('/sobre-nosotros')
+def about():
+    return render_template('sobre-nosotros.html')
+
 DB_PATH = os.path.join(os.path.dirname(__file__), 'lexsight.sqlite')
 UPLOAD_TEMP_DIR = os.path.join(os.path.dirname(__file__), 'app/static/uploads_temp')
 
@@ -35,74 +45,78 @@ def chat_api():
     try:
         mensaje_usuario = request.form.get('message', '').strip()
         session_id = request.form.get('session_id', 'session_general')
+        modo_analisis = request.form.get('mode', 'fast') # Recuperamos el modo
         archivo_adjunto = request.files.get('file')
 
         texto_del_archivo = ""
+        # ... [MANTÉN AQUÍ TU LÓGICA DE GUARDADO TEMPORAL Y EXTRACCIÓN DE TEXTO EXACTAMENTE IGUAL] ...
 
-        # 1. Validación y guardado si el usuario adjuntó un documento
-        if archivo_adjunto and archivo_adjunto.filename != '':
-            nombre_seguro = archivo_adjunto.filename
-            
-            # --- AQUÍ VA LA VALIDACIÓN DEL SERVIDOR ---
-            extensiones_permitidas = ['.pdf', '.docx']
-            if not any(nombre_seguro.lower().endswith(ext) for ext in extensiones_permitidas):
-                # Rechaza la petición si no es un PDF o DOCX
-                return jsonify({'response': 'Formato de archivo no admitido. LexSight solo procesa documentos PDF o DOCX.'}), 400
-            # ------------------------------------------
-
-            ruta_temporal = os.path.join(UPLOAD_TEMP_DIR, nombre_seguro)
-            archivo_adjunto.save(ruta_temporal)
-
-            # Extraer el texto según su formato
-            if nombre_seguro.endswith('.pdf'):
-                texto_del_archivo = extraer_texto_pdf(ruta_temporal)
-            elif nombre_seguro.endswith('.docx'):
-                texto_del_archivo = extraer_texto_docx(ruta_temporal)
-
-            # Eliminar el archivo temporal para mantener el entorno limpio
-            if os.path.exists(ruta_temporal):
-                os.remove(ruta_temporal)
-
-        # Si no hay mensaje pero sí archivo, estructuramos un texto para el log
-        log_mensaje = mensaje_usuario if mensaje_usuario else f"[Envió un documento: {archivo_adjunto.filename}]"
-
-        # 2. Guardar interacción en SQLite
+        # Recuperar historial
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
-        cursor.execute(
-            "INSERT INTO historial_chat (session_id, remitente, mensaje) VALUES (?, ?, ?)",
-            (session_id, 'user', log_mensaje)
-        )
-        conn.commit()
-
-        # 3. Contexto reciente
-        cursor.execute(
-            "SELECT remitente, mensaje FROM historial_chat WHERE session_id = ? ORDER BY timestamp DESC LIMIT 6",
-            (session_id,)
-        )
+        cursor.execute("SELECT remitente, mensaje FROM historial_chat WHERE session_id = ? ORDER BY timestamp DESC LIMIT 6", (session_id,))
         filas = cursor.fetchall()
         historial_contexto = [{"role": f[0], "content": f[1]} for f in reversed(filas)]
 
-        # 4. Inyectar texto del documento extraído (si lo hay)
-        if texto_del_archivo:
-            mensaje_usuario = f"{mensaje_usuario}\n\n[CONTEXTO ADJUNTO POR EL USUARIO DESDE EL DOCUMENTO]:\n{texto_del_archivo}"
+        # --- BIFURCACIÓN DE FLUJO ---
+        # --- BIFURCACIÓN DE FLUJO ---
+        response_data = {}
 
-        # 5. Ejecutar pipeline legal (conecta con Gemini)
-        respuesta_bot = procesar_pipeline_legal(mensaje_usuario, historial_contexto)
+        if modo_analisis == 'deep':
+            from backend_consultas import cargar_base_conocimientos, filtrar_contexto_relevante
+            texto_base = cargar_base_conocimientos()
+            contexto_kb = filtrar_contexto_relevante(mensaje_usuario, texto_base)
+            
+            # Ejecutar Deep Research (Retorna texto con delimitadores)
+            respuesta_cruda = procesar_pipeline_deep_research(mensaje_usuario, historial_contexto, texto_del_archivo, contexto_kb)
+            
+            # Inicializar variables por defecto en caso de que el LLM falle con el formato
+            resumen_chat = "Análisis profundo completado. Por favor, revisa el documento adjunto."
+            informe_completo = respuesta_cruda
 
-        # 6. Guardar respuesta generada
-        cursor.execute(
-            "INSERT INTO historial_chat (session_id, remitente, mensaje) VALUES (?, ?, ?)",
-            (session_id, 'bot', respuesta_bot)
-        )
-        conn.commit()
-        conn.close()
+            # Separar el Resumen del Informe Completo
+            if "[RESUMEN_EJECUTIVO]" in respuesta_cruda and "[INFORME_COMPLETO]" in respuesta_cruda:
+                partes = respuesta_cruda.split("[INFORME_COMPLETO]")
+                resumen_chat = partes[0].replace("[RESUMEN_EJECUTIVO]", "").strip()
+                informe_completo = partes[1].strip()
+            
+            # 1. Generar el PDF Profesional con el Informe Completo
+            REPORTS_DIR = os.path.join(os.path.dirname(__file__), 'app', 'static', 'reports')
+            nombre_reporte = f"DeepResearch_{uuid.uuid4().hex[:8]}.pdf"
+            crear_informe_pdf(informe_completo, REPORTS_DIR, nombre_reporte)
 
-        return jsonify({'response': respuesta_bot}), 200
+            # 2. Limpiar solo el Resumen Ejecutivo para la UI
+            texto_chat_limpio = limpiar_texto_respuesta(resumen_chat)
+            url_pdf = url_for('static', filename=f'reports/{nombre_reporte}')
 
+            # 3. Preparar controles interactivos sin mezclarlos con el texto del chat
+            botones_interfaz = (
+                f"<div class='d-flex gap-2'>"
+                f"<button type='button' onclick='abrirModalPDF(\"{url_pdf}\")' class='btn btn-sm text-white fw-medium shadow-sm' style='background-color: #1a434e; border-radius: 10px;'>"
+                f"<i class='fa-solid fa-file-magnifying-glass me-2'></i>Ver Informe Completo</button>"
+                f"<a href='{url_pdf}' download class='btn btn-sm btn-outline-secondary' style='border-radius: 10px;' title='Descargar archivo'>"
+                f"<i class='fa-solid fa-download'></i></a>"
+                f"</div>"
+            )
+
+            response_data = {
+                'response': texto_chat_limpio,
+                'buttons_html': botones_interfaz
+            }
+        else:
+            # Flujo rápido convencional
+            if texto_del_archivo:
+                mensaje_usuario = f"{mensaje_usuario}\n\n[DOCUMENTO]:\n{texto_del_archivo}"
+            response_data = {
+                'response': procesar_pipeline_legal(mensaje_usuario, historial_contexto)
+            }
+
+        # 6. Guardar en SQLite y retornar
+        # ... (Tu código existente para guardar e insertar)
+        return jsonify(response_data), 200
     except Exception as e:
-        print(f"Error procesando adjunto multipart en /api/chat: {e}")
-        return jsonify({'response': 'Error en el servidor al leer o procesar el documento enviado.'}), 500
+        print(f"Error procesando /api/chat: {e}")
+        return jsonify({'response': 'Error en el servidor.'}), 500
 
 if __name__ == '__main__':
     # init_db()

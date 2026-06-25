@@ -64,9 +64,15 @@ document.getElementById('chat-form').addEventListener('submit', async function(e
 
   try {
     // 3. Construcción de Multipart Form Data
+    // 3. Construcción de Multipart Form Data
     const formData = new FormData();
     formData.append('message', userMessage);
     formData.append('session_id', SESSION_ID);
+    
+    // NUEVO: Capturar el estado del modo de investigación
+    const isDeepResearch = document.getElementById('deep-research-toggle').checked;
+    formData.append('mode', isDeepResearch ? 'deep' : 'fast');
+
     if (fileToSend) {
       formData.append('file', fileToSend);
     }
@@ -84,7 +90,15 @@ document.getElementById('chat-form').addEventListener('submit', async function(e
     const loadingPlaceholder = document.getElementById(tempBotId);
     if (loadingPlaceholder) {
       loadingPlaceholder.classList.remove('typing-dots');
-      loadingPlaceholder.innerText = data.response;
+      const textoLimpio = data.response ? data.response.replace(/\n/g, '<br>') : '';
+      loadingPlaceholder.innerHTML = textoLimpio;
+      
+      if (data.buttons_html) {
+        const botonesDiv = document.createElement('div');
+        botonesDiv.innerHTML = data.buttons_html;
+        botonesDiv.style.marginTop = '0.75rem';
+        loadingPlaceholder.appendChild(botonesDiv);
+      }
     }
 
   } catch (error) {
@@ -132,3 +146,23 @@ document.getElementById('clear-chat').addEventListener('click', function() {
     </div>
   `;
 });
+
+/**
+ * Función global para invocar el Modal y cargar el informe PDF
+ * sin interrumpir la sesión de chat activa del usuario.
+ */
+window.abrirModalPDF = function(urlDocumento) {
+  // Configurar la ruta en el iframe
+  const iframe = document.getElementById('iframePDF');
+  iframe.src = urlDocumento;
+  
+  // Instanciar y mostrar el Modal
+  const modalElement = document.getElementById('modalVisorPDF');
+  const visorModal = new bootstrap.Modal(modalElement);
+  visorModal.show();
+  
+  // Limpiar el src al cerrar para evitar sobrecarga de memoria
+  modalElement.addEventListener('hidden.bs.modal', function () {
+    iframe.src = '';
+  }, { once: true });
+};
